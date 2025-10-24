@@ -40,6 +40,8 @@
     FROM customer_totals
     WHERE total_amount = (SELECT MAX(total_amount) FROM customer_totals);
 ```
+
+
 ---
 
 ## 💬 Mistakes or Debugs
