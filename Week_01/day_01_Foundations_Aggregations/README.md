@@ -39,10 +39,10 @@
     SELECT customer_id, total_amount
     FROM customer_totals
     WHERE total_amount = (SELECT MAX(total_amount) FROM customer_totals);
-```
-
+    ```
 
 ---
+
 
 ## 💬 Mistakes or Debugs
 - Misused double quotes in CONCAT — fixed with single quotes `' '`.
