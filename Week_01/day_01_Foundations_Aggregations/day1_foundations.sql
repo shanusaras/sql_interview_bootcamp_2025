@@ -153,14 +153,3 @@ We can’t mix grouped and non-grouped columns without an aggregate or GROUP BY.
 To preserve customer context, we filter after computing the max instead of aggregating again.
 */
 --  ==========================================================================================
-/*
-| Concept                 | Pattern / Keyword            | Example / Trick              |
-| ----------------------- | ---------------------------- | ---------------------------- |
-| Unique Count            | `COUNT(DISTINCT col)`        | Count unique IDs             |
-| Aggregation             | `SUM(), AVG(), MIN(), MAX()` | Always pair with `GROUP BY`  |
-| Date filter             | `BETWEEN 'start' AND 'end'`  | Inclusive range filter       |
-| Ranking                 | `ORDER BY ... DESC LIMIT n`  | Top-N pattern                |
-| Conditional Aggregation | `HAVING` after `GROUP BY`    | For aggregate filters        |
-| Quick metric            | `(price * quantity)`         | Revenue / sales pattern      |
-| Sorting & readability   | Use `ROUND()` + `AS alias`   | Makes output interview-ready |
-*/
