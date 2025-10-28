@@ -1,104 +1,53 @@
-# Day 2 – Subqueries practice questions
-
-* **Date:** 22 Oct 2025
-* **Focus:**  EXISTS / NOT EXISTS, Subqueries, CTEs
-* **Queries:** 10 Questions
-* **Tools:** MySQL
-
----
-
-## Concepts Revised
-
-| Concept                    | Pattern / Keyword            | Example / Trick                              |
-| -------------------------- | ---------------------------- | -------------------------------------------- |
-| Compare within group       | `JOIN + ON dept`             | Find employees earning above dept average    |
-| Compare with overall value | `CROSS JOIN + WHERE`         | Compare store vs overall avg sales           |
-| Conditional remarks        | `CASE WHEN ... THEN ... END` | Add “Above Avg / Below Avg” flags            |
-| Subquery filter            | `IN` / `EXISTS`              | Find departments with (or without) employees |
-| Safe deletion              | `DELETE … WHERE NOT EXISTS`  | Remove depts without employees               |
-| Aggregated comparison      | `HAVING`                     | Filter groups after aggregation              |
-| Inline aggregation         | `WITH CTE` or subquery       | Avoid nested SUM-inside-AVG errors           |
+# Day 1 – SQL Foundations & Aggregations
+- **Date:** 21 Oct 2025
+- **Focus:** SELECT, WHERE, ORDER BY, DISTINCT, GROUP BY, HAVING
+- **Queries:** 6 (including challenge)
+- **Tools:** MySQL 
 
 ---
 
-## Rule-of-Thumb Patterns
+## 🧠 Concepts Revised
+| Concept                 | Pattern / Keyword            | Example / Trick              |
+| ----------------------- | ---------------------------- | ---------------------------- |
+| Unique Count            | `COUNT(DISTINCT col)`        | Count unique IDs             |
+| Aggregation             | `SUM(), AVG(), MIN(), MAX()` | Always pair with `GROUP BY`  |
+| Date filter             | `BETWEEN 'start' AND 'end'`  | Inclusive range filter       |
+| Ranking                 | `ORDER BY ... DESC LIMIT n`  | Top-N pattern                |
+| Conditional Aggregation | `HAVING` after `GROUP BY`    | For aggregate filters        |
+| Quick metric            | `(price * quantity)`         | Revenue / sales pattern      |
+| Sorting & readability   | Use `ROUND()` + `AS alias`   | Makes output interview-ready |
 
-| Situation                      | Recommended Pattern              | Reason                            |
-| ------------------------------ | -----------------------          | --------------------------------- |
-| when comparing row with a single aggregated 
-value **(like avg across all)**  | ✅ `CROSS JOIN + WHERE`          | One global metric (no key needed) |
-| when comparing row with per group aggregated 
-value **(like avg per dept)**    | ✅ `JOIN + ON dept_name + WHERE` | One metric per group              |
-| Add remarks / category         | ✅ `CASE WHEN in SELECT clause`  | Cleaner than multiple queries     |
-| Delete unmatched rows or checking
-boolean expression -yes/no       | ✅ `WHERE NOT EXISTS`            | NULL-safe, faster than `NOT IN`   |
-| Filter aggregated data 
-only above/ below                | ✅ `HAVING`                      | Works after `GROUP BY`            |
-
----
-
-## Example Patterns
-
-**🔹 Compare with Dept Average** (JOIN + ON + WHERE)
-
-```sql
-WITH dept_avg AS (
-  SELECT dept_name, AVG(salary) AS avg_sal
-  FROM employee
-  GROUP BY dept_name
-)
-SELECT e.*
-FROM employee e
-JOIN dept_avg d ON e.dept_name = d.dept_name
-WHERE e.salary > d.avg_sal;
-```
-
-**🔹 Compare with Global Average** (CROSS JOIN + WHERE)
-
-```sql
-WITH avg_sal AS (SELECT AVG(salary) AS avg_salary FROM employee)
-SELECT e.*
-FROM employee e
-CROSS JOIN avg_sal a
-WHERE e.salary > a.avg_salary;
-```
-
-**🔹 Conditional Remark** (CASE WHEN in SELECT clause)
-
-```sql
-SELECT emp_name, salary,
-       CASE WHEN salary > 50000 THEN 'Above Avg'
-            ELSE 'Below Avg' END AS remark
-FROM employee;
-```
-
-**🔹 Delete Departments with No Employees** (checking the unmatched rows/ boolean)
-
-```sql
-DELETE FROM department d
-WHERE NOT EXISTS (
-  SELECT 1 FROM employee e
-  WHERE e.dept_name = d.dept_name
-);
-```
 
 ---
 
 ## Tricks / Insights
-
-* `EXISTS` / `NOT EXISTS` > `IN` / `NOT IN` because of NULL-safety.
-* `CROSS JOIN` is ideal when comparing to one global value (e.g., overall avg sales).
-* Use `JOIN + ON` when comparison is key-based (per department or store).
-* `CASE WHEN` helps you **label records** directly in SELECT rather than filter them.
-* Window functions can replace many subqueries once you’re comfortable (`AVG(...) OVER()` etc.).
+- **string concat** → `CONCAT(first_name, ' ', last_name)`
+    - Always use **single quotes `' '`** for strings — this avoids issues if the interviewer’s DB has `ANSI_QUOTES` mode enabled, which treats double quotes as identifiers instead of string literals.
+- **Date extraction** → `YEAR(hire_date)` or direct comparison
+- If asked to find the total amount of customer **who has atleast one order/ purchase**, check the constraint: If order_id/ sale_id is the **primary key**—> then they are unique + non -null so **no need to GROUP BY** and use SUM to get the amount for each transaction/ order .
+- **Use aggregation** —> only to perform on multiple row values for same category
+- **When calculating total sales amount per customer** --> use **COUNT(order_id/sale_id)** to know the frequency of the purchase / no of purchases/ no of orders too for one customer
+- **Don't use mixed aggregates in the single SELECT clause**: Use CTEs, sub-queries and structure the first aggregate and then use it in outer query;
+    - To avoid aggregation nesting errors, I isolate levels of aggregation using subqueries.
+    - eg. 
+    ```sql
+    WITH customer_totals AS (
+    SELECT customer_id, SUM(price * quantity) AS total_amount
+    FROM Sales
+    GROUP BY customer_id
+    )
+    SELECT customer_id, total_amount
+    FROM customer_totals
+    WHERE total_amount = (SELECT MAX(total_amount) FROM customer_totals);
+    ```
 
 ---
 
-## Mistakes / Debugs
 
-* Tried to use `HAVING` without `GROUP BY` → error.
-* Used `NOT IN` on NULL-containing subquery → returned empty set.
-* Mixed aggregation levels (`AVG(SUM())`) → solved using CTE layering.
+## 💬 Mistakes or Debugs
+- Misused double quotes in CONCAT — fixed with single quotes `' '`.
+- Redundant use of primary key column in GROUP BY
+
 
 ---
 
