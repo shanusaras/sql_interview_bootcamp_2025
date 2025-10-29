@@ -11,7 +11,7 @@
 
 | Concept                    | Pattern / Keyword            | Example / Trick                              |
 | -------------------------- | ---------------------------- | -------------------------------------------- |
-| Compare within group       | `JOIN + ON dept`             | Find employees earning above dept average    |
+| Compare within group       | `JOIN + ON dept + WHERE`     | Find employees earning above avg dept-wise average    |
 | Compare with overall value | `CROSS JOIN + WHERE`         | Compare store vs overall avg sales           |
 | Conditional remarks        | `CASE WHEN ... THEN ... END` | Add “Above Avg / Below Avg” flags            |
 | Subquery filter            | `IN` / `EXISTS`              | Find departments with (or without) employees |
@@ -26,7 +26,7 @@
 | Situation                      | Recommended Pattern              | Reason                            |
 | ------------------------------ | -----------------------          | --------------------------------- |
 | when comparing row with a single aggregated 
-value **(like avg across all)**  | ✅ `CROSS JOIN + WHERE`          | One global metric (no key needed) |
+value **(like avg across all)**  | ✅ `CROSS JOIN + WHERE`/ `JOIN + ON filter` | One global metric (no key needed) |
 | when comparing row with per group aggregated 
 value **(like avg per dept)**    | ✅ `JOIN + ON dept_name + WHERE` | One metric per group              |
 | Add remarks / category         | ✅ `CASE WHEN in SELECT clause`  | Cleaner than multiple queries     |
