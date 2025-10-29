@@ -3,7 +3,7 @@
 
 ---
 
-## Pattern Buckets — Think Like an Interviewer
+## Pattern Buckets 
 
 | # | Pattern Name | Core SQL Concept | Typical Keywords / Clues |
 |---|---------------|------------------|---------------------------|
