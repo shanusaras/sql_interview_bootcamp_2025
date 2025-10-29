@@ -13,9 +13,7 @@ salary earned by an emp in each dept. Only consider employees in employee_histor
 */
 
 -- ===========================================================================================
-SELECT * FROM employee;
--- 1) 
--- per department
+
 USE SUB_QUERY;
 SELECT * FROM sales;
 SELECT * FROM department;
@@ -23,7 +21,7 @@ SELECT * FROM employee;
 SELECT * FROM employee_history; 
 
 -- solutions:
--- 1) using CROSS JOIN + WHERE filter
+-- 1) using CROSS JOIN + WHERE filter ✅
 WITH totals AS (SELECT dept_name, SUM(salary) AS tot_sal
 				FROM employee
                 GROUP BY dept_name),
