@@ -60,7 +60,7 @@
 
 ---
 
-### Quick patterns & solutions (from Questins solved)
+### Quick patterns & solutions (from Questions solved)
 
 - Q1: Customers with orders — use `EXISTS` or `JOIN`; `EXISTS` avoids duplicates.
 - Q2: Total spent per customer (include zeros) — `LEFT JOIN` + `COALESCE(SUM(amount), 0)` + `GROUP BY`.
@@ -74,20 +74,6 @@
   ```
 - Q4: Customers with no orders — NOT EXISTS anti-join pattern.
 - Q5: Customers with avg order > overall avg — CTE to compute per-customer AVG, then compare to AVG of those values (CTE + CROSS JOIN or subquery).
-
-## Mistakes / Debugs
-
-* Tried to use `HAVING` without `GROUP BY` → error.
-* Used `NOT IN` on NULL-containing subquery → returned empty set.
-* Mixed aggregation levels (`AVG(SUM())`) → solved using CTE layering.
-
----
-
-# Day 2 – Joins & Subqueries
-- **Date:** 22 Oct 2025  
-- **Focus:** INNER / LEFT / SELF JOIN, Subqueries (IN, EXISTS, Correlated)  
-- **Queries:** 5  
-- **Tools:** MySQL  
 
 ---
 
@@ -103,6 +89,13 @@
 | Filter scope | `WHERE` = row filter, `HAVING` = group filter | Use HAVING for aggregates only |
 
 ---
+
+## Mistakes / Debugs
+
+* Tried to use `HAVING` without `GROUP BY` → error.
+* Used `NOT IN` on NULL-containing subquery → returned empty set.
+* Mixed aggregation levels (`AVG(SUM())`) → solved using CTE layering.
+
 
 ## ⚙️ Tricks / Insights
 
@@ -170,7 +163,7 @@ WHERE p.order_id IS NULL;
 | Missed alias in subquery | Always alias derived tables (AS t) |
 | Checked “at least one order” without filtering by completed ones |Add business logic filter (order_status='Completed') |
 | Confused JOIN vs WHERE EXISTS	| JOIN = return matching data, EXISTS = return boolean check |
-| Used ON in CROSS JOIN	| ❌ CROSS JOIN never takes ON, use only WHERE for comparison
+| Used ON in CROSS JOIN	| ❌ CROSS JOIN never takes ON, use only WHERE for comparison |
 
 ## ✅ Summary:
 - Use `EXISTS` for logical checks, `LEFT JOIN` for inclusion with missing data, and `CROSS JOIN` for comparisons with overall aggregates.
