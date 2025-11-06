@@ -91,12 +91,12 @@
            ```
            ➡ running total counts each row separately
            - Result:-
-           | date | running_total     |
-           | ---- | ----------------- |
-           | 01   | 100               |
-           | 02   | 300 (100+200)     |
-           | 02   | 500 (100+200+200) |
-           | 03   | 800               |
+             - | date | running_total     |
+               | ---- | ----------------- |
+               | 01   | 100               |
+               | 02   | 300 (100+200)     |
+               | 02   | 500 (100+200+200) |
+               | 03   | 800               |
 
 
          - **Query_02: RANGE**
@@ -106,12 +106,12 @@
            ```
            ➡ running total treats duplicate dates as one step
            - Result:-
-           | date | running_total     |
-           | ---- | ----------------- |
-           | 01   | 100               |
-           | 02   | 500 (includes both 200s) |
-           | 02   | 500               |
-           | 03   | 800               |
+             - | date | running_total     |
+               | ---- | ----------------- |
+               | 01   | 100               |
+               | 02   | 500 (includes both 200s) |
+               | 02   | 500               |
+               | 03   | 800               |
   - We can use ***alias** for window frame
     - example:-
       - ```sql
@@ -163,28 +163,27 @@
 
 ## Patterns to remember:
 - **3 main categories**:
-| Category                          | Purpose                                                        | Common Functions                                                                     | Example Use                                       |
-| --------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------- |
-| **1. Ranking Functions**          | Assign a rank, position, or distribution to each row           | `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `NTILE()`, `PERCENT_RANK()`, `CUME_DIST()` | “Find top 3 products by sales per category”       |
-| **2. Aggregate Window Functions** | Perform aggregate calculations over a window but keep each row | `SUM()`, `AVG()`, `COUNT()`, `MIN()`, `MAX()` (when used with `OVER()`)              | “Show running total of revenue per region”        |
-| **3. Value / Offset Functions**   | Compare or access values from other rows in the window         | `LAG()`, `LEAD()`, `FIRST_VALUE()`, `LAST_VALUE()`                                   | “Compare current month’s sales to previous month” |
+  - | Category                          | Purpose                                                        | Common Functions                                                                     | Example Use                                       |
+    | --------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------- |
+    | **1. Ranking Functions**          | Assign a rank, position, or distribution to each row           | `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `NTILE()`, `PERCENT_RANK()`, `CUME_DIST()` | “Find top 3 products by sales per category”       |
+    | **2. Aggregate Window Functions** | Perform aggregate calculations over a window but keep each row | `SUM()`, `AVG()`, `COUNT()`, `MIN()`, `MAX()` (when used with `OVER()`)              | “Show running total of revenue per region”        |
+    | **3. Value / Offset Functions**   | Compare or access values from other rows in the window         | `LAG()`, `LEAD()`, `FIRST_VALUE()`, `LAST_VALUE()`                                   | “Compare current month’s sales to previous month” |
 
 
 - **extended categories**
-| Type                           | Function                                          | What It Does                                             |
-| ------------------------------ | ------------------------------------------------- | -------------------------------------------------------- |
-| **Statistical / Analytical**   | `NTH_VALUE()`, `STDDEV()`, `VARIANCE()`, `CORR()` | Advanced analytics, percentiles, and variability         |
-| **Cumulative / Moving Window** | using `ROWS BETWEEN` or `RANGE BETWEEN` clauses   | Controls frame for running totals, moving averages, etc. |
+  - | Type                           | Function                                          | What It Does                                             |
+    | ------------------------------ | ------------------------------------------------- | -------------------------------------------------------- |
+    | **Statistical / Analytical**   | `NTH_VALUE()`, `STDDEV()`, `VARIANCE()`, `CORR()` | Advanced analytics, percentiles, and variability         |
+    | **Cumulative / Moving Window** | using `ROWS BETWEEN` or `RANGE BETWEEN` clauses   | Controls frame for running totals, moving averages, etc. |
 
 
 - **Categorization by Use Case Mental Model**
-| Goal                            | Category                 | Example Function                          |
-| ------------------------------- | ------------------------ | ----------------------------------------- |
-| Ranking / Percentiles           | Ranking                  | `RANK()`, `PERCENT_RANK()`, `CUME_DIST()` |
-| Trends or Period-over-Period    | Value / Offset           | `LAG()`, `LEAD()`                         |
-| Running totals / Moving average | Aggregate + Window frame | `SUM() OVER (ORDER BY ...)`               |
-| Statistical analysis            | Statistical              | `STDDEV()`, `NTH_VALUE()`                 |
-
+  - | Goal                            | Category                 | Example Function                          |
+    | ------------------------------- | ------------------------ | ----------------------------------------- |
+    | Ranking / Percentiles           | Ranking                  | `RANK()`, `PERCENT_RANK()`, `CUME_DIST()` |
+    | Trends or Period-over-Period    | Value / Offset           | `LAG()`, `LEAD()`                         |
+    | Running totals / Moving average | Aggregate + Window frame | `SUM() OVER (ORDER BY ...)`               |
+    | Statistical analysis            | Statistical              | `STDDEV()`, `NTH_VALUE()`                 |
 
 ---
 
