@@ -116,7 +116,7 @@
     - example:-
       - ```sql
         SELECT *,
-              FIRST_VALUE() OVER() w AS first,
+              FIRST_VALUE() OVER w AS first,
         FROM product
         WINDOW w AS (PARITION BY ... ORDER BY...RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED       FOLLOWING)
         ```
